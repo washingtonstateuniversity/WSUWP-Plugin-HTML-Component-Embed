@@ -68,8 +68,10 @@ class HTML_Component_Embed {
 		$component_html = wp_remote_retrieve_body( $component_response );
 		$component_html_esc = htmlspecialchars( $component_html );
 
-		$content = $component_html;
+		$content = '<div class="html-component-embed">';
+		$content .= $component_html;
 		$content .= '<pre><code class="html">' . $component_html_esc . '</code></pre>';
+		$content .= '</div>';
 
 		wp_cache_set( $cache_key, $content, '', 3600 );
 
