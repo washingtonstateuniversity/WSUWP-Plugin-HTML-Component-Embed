@@ -49,6 +49,9 @@ class HTML_Component_Embed {
 			return '<!-- The URL for this component is not allowed as an embed. -->';
 		}
 
+		wp_enqueue_style( 'highlightjs', plugins_url( '/css/github-gist.css', dirname( __FILE__ ) ) );
+		wp_enqueue_script( 'highlightjs', plugins_url( '/js/highlight.pack.js', dirname( __FILE__ ) ) );
+
 		$cache_key = 'html:' . md5( $url );
 		$content = wp_cache_get( $cache_key );
 
@@ -66,10 +69,25 @@ class HTML_Component_Embed {
 		$component_html_esc = htmlspecialchars( $component_html );
 
 		$content = $component_html;
-		$content .= '<pre><code>' . $component_html_esc . '</code></pre>';
+		$content .= '<pre><code class="html">' . $component_html_esc . '</code></pre>';
 
 		wp_cache_set( $cache_key, $content, '', 3600 );
 
+		if ( false === has_action( 'wp_footer', array( $this, 'highlight_syntax_script' ) ) ) {
+			add_action( 'wp_footer', array( $this, 'highlight_syntax_script' ) );
+		}
 		return $content;
+	}
+
+	/**
+	 * Initiate syntax highlighting once the page has loaded so that all embedded HTML
+	 * components are processed.
+	 *
+	 * @since 0.0.1
+	 */
+	public function highlight_syntax_script() {
+		?>
+		<script>jQuery( document ).ready( function( $ ) { $( "pre code" ).each( function( i, block ) { hljs.highlightBlock( block ); } ); } );</script>
+		<?php
 	}
 }
