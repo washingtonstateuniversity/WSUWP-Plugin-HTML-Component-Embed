@@ -18,7 +18,7 @@ if ( ! defined( 'WPINC' ) ) {
 // This plugin uses namespaces and requires PHP 5.3 or greater.
 if ( version_compare( PHP_VERSION, '5.3', '<' ) ) {
 	add_action( 'admin_notices', create_function( '',
-		"echo '<div class=\"error\"><p>" . __( 'WSUWP Plugin Skeleton requires PHP 5.3 to function properly. Please upgrade PHP or deactivate the plugin.', 'wsuwp-plugin-skeleton' ) . "</p></div>';" ) );
+	"echo '<div class=\"error\"><p>" . __( 'WSUWP Plugin Skeleton requires PHP 5.3 to function properly. Please upgrade PHP or deactivate the plugin.', 'wsuwp-plugin-skeleton' ) . "</p></div>';" ) );
 	return;
 } else {
 	include_once __DIR__ . '/includes/html-component-embed.php';
