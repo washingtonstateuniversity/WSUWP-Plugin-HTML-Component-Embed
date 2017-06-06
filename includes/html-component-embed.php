@@ -38,6 +38,7 @@ function display_html_component( $atts ) {
 	$content = wp_cache_get( $cache_key );
 
 	if ( $content ) {
+		maybe_highlight_syntax_script();
 		return $content;
 	}
 
@@ -57,10 +58,21 @@ function display_html_component( $atts ) {
 
 	wp_cache_set( $cache_key, $content, '', 3600 );
 
+	maybe_highlight_syntax_script();
+
+	return $content;
+}
+
+/**
+ * Load the syntax highlighting script if this is the first
+ * HTML component embeded on the page.
+ *
+ * @since 0.0.1
+ */
+function maybe_highlight_syntax_script() {
 	if ( false === has_action( 'wp_footer', 'WSU\HTML_Component_Embed\highlight_syntax_script' ) ) {
 		add_action( 'wp_footer', 'WSU\HTML_Component_Embed\highlight_syntax_script' );
 	}
-	return $content;
 }
 
 /**
