@@ -5,6 +5,17 @@ namespace WSU\HTML_Component_Embed;
 add_action( 'plugins_loaded', 'WSU\HTML_Component_Embed\setup_hooks' );
 
 /**
+ * Provide the plugin version for enqueued scripts and styles.
+ *
+ * @since 0.0.1
+ *
+ * @return string
+ */
+function plugin_version() {
+	return '0.0.1';
+}
+
+/**
  * Setup hooks to include.
  *
  * @since 0.0.1
@@ -31,8 +42,8 @@ function display_html_component( $atts ) {
 		return '<!-- The URL for this component is not allowed as an embed. -->';
 	}
 
-	wp_enqueue_style( 'highlightjs', plugins_url( '/css/github-gist.css', dirname( __FILE__ ) ) );
-	wp_enqueue_script( 'highlightjs', plugins_url( '/js/highlight.pack.js', dirname( __FILE__ ) ) );
+	wp_enqueue_style( 'highlightjs', plugins_url( '/css/github-gist.css', dirname( __FILE__ ) ), array(), plugin_version() );
+	wp_enqueue_script( 'highlightjs', plugins_url( '/js/highlight.pack.js', dirname( __FILE__ ) ), array(), plugin_version(), true );
 
 	$cache_key = 'html:' . md5( $url );
 	$content = wp_cache_get( $cache_key );
